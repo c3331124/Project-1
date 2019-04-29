@@ -1,0 +1,457 @@
+/*Programming Assignment 1 by c3331124
+This program completes the following tasks: 
+- It can encrypt and decrypt a roational cipher to a known key.
+- It can decrypt a rotational cipher with an unknown key (using brute force).
+- It can encrypt and decrypt a substitution cipher to a pre-prescribed key.
+The inputs include:
+- The message that needs to be enrypted/decrypted.
+- Numbers to indicated whether to encryot or decrypt the message, whether a rotational or substitution
+  cipher is being used.
+- When a rotational cipher is selected a key will need to be input.
+- When decryption and a rotational cipher is selected the user will be asked if they know the key.
+  If the user selects option 2 for this they will still be prompted for a key, the code will work regardless if the key entered.
+For the rotational cipher, when enrypting a limitation is that the code fails if a large key value is imputed.
+For the substitutional cipher, a limitation is that the key is preselected and cannot be changed.
+
+For the flow control i mainly used if statments to divide up the sections of code (instead of using functions).
+I also used for loops and while loops to encrypt/decrypt every character entered.
+A large switch block was used for the substitutional cipher as it was the simplest, not so much the neatest.
+*/
+
+#include<stdio.h>
+ 
+int main()
+{
+	char message[1000], ch;
+	
+	int i, n, q, key, type, t, sign, bf;
+	
+	printf("Welcome to Oliver's cipher program. \nEnter a message you want to analyse: ");
+	fgets(message, 1000, stdin);
+	printf("Enter 1 to encrypt or 2 to decrypt the message: ");
+	scanf("%d", &type);
+	printf("Enter 1 for a rotational cipher and 2 for a substitution cipher: ");
+	scanf("%d", &t);
+	if(t == 1 && type == 2){
+	    printf("If you know the key enter 1, if you dont know the key enter 2 (enter a random key in the next prompt if you enter 2): ");
+	    scanf("%d", &bf);
+	}
+	if(t == 1)  {
+	    printf("Enter the key: ");
+	    scanf("%d", &key);
+	    
+	}
+	if(type == 1) { //This if block assigns a value to type so that the code block below doesnt need to be written out again. Therefore, saving space.
+	    type = 1;
+	    
+	} else if(type == 2){
+	    type = -1;
+	    
+	}
+	
+	
+	
+	if(bf == 2 /*This block of code uses the brute force tactic to decypher a rotational cipher.*/)    {
+	    n=0;
+	    key = 0; //This re-inititalises the vlaue of the key to 0 to reverse the user imput of the key.
+	    while(n <= 24){
+	    key=1;
+	    
+	    n++;
+	    
+	    for(i = 0; message[i] != '\0'; ++i){
+		ch = message[i];
+		
+		if(ch >= 'a' && ch <= 'z'){
+			ch = ch - key;
+			
+			if(ch < 'a'){
+				ch = ch + 'z' - 'a' + 1; //This repeating line of code allows a letter to be calculated if the key forces the term to be off the alpahbet.
+			}
+			
+			message[i] = ch;
+		}
+		else if(ch >= 'A' && ch <= 'Z'){
+			ch = ch - key;
+			
+			if(ch < 'A'){
+				ch = ch + 'Z' - 'A' + 1;
+			}
+			
+			message[i] = ch;
+		}
+	}
+		printf("For key %d the message is: %s", n, message);
+	}
+	
+	}   else if (t == 1 /*This block of code can both enrypt and decrypt rotational ciphers.*/){
+
+	for(i = 0; message[i] != '\0'; ++i){
+		ch = message[i];
+		
+	    if(ch >= 'a' && ch <= 'z'){
+			ch = ch + (key*type);
+			
+			if(ch > 'z' && type > 0){
+				ch = ch - 'z' + 'a' - 1;
+			}   else if(ch < 'a' && type < 0)   {
+			    ch = ch + 'z' - 'a' + 1;
+			}
+			
+	    message[i] = ch;
+		}
+		else if(ch >= 'A' && ch <= 'Z'){
+			ch = ch + (key*type);
+			
+			if(ch > 'Z' && type > 0){
+				ch = ch - 'Z' + 'A' - 1;
+			}   else if(ch < 'A' && type < 0)   {
+			    ch = ch + 'Z' - 'A' + 1;
+			}
+			
+			
+			message[i] = ch;
+		}
+		
+	}
+	printf("message: %s", message);
+	}   else if(t == 2) {
+	
+	for(i = 0; message[i] != '\0'; ++i){
+        ch = message[i];
+    if(type == 1){
+        if(ch >= 'a' && ch <= 'z'){
+        switch(ch){
+            case 'a':
+            ch = 'd';
+            break;
+            case 'b':
+            ch = 'q';
+            break;
+            case 'c':
+            ch = 'r';
+            break;
+            case 'd':
+            ch = 'e';
+            break;
+            case 'e':
+            ch = 't';
+            break;
+            case 'f':
+            ch = 'l';
+            break;
+            case 'g':
+            ch = 'n';
+            break;
+            case 'h':
+            ch = 'g';
+            break;
+            case 'i':
+            ch = 'j';
+            break;
+            case 'j':
+            ch='u';
+            break;
+            case 'k':
+            ch = 'b';
+            break;
+            case 'l':
+            ch = 'a';
+            break;
+            case 'm':
+            ch='c';
+            break;
+            case 'n':
+            ch = 'p';
+            break;
+            case 'o':
+            ch = 'x';
+            break;
+            case 'p':
+            ch='z';
+            break;
+            case 'q':
+            ch = 'o';
+            break;
+            case 'r':
+            ch = 'i';
+            break;
+            case 's':
+            ch='f';
+            break;
+            case 't':
+            ch = 's';
+            break;
+            case 'u':
+            ch = 'w';
+            break;
+            case 'v':
+            ch='m';
+            break;
+            case 'w':
+            ch = 'v';
+            break;
+            case 'x':
+            ch = 'y';
+            break;
+            case 'y':
+            ch='k';
+            break;
+            case 'z':
+            ch = 'h';
+            break;
+        }
+        }  else if(ch >= 'A' && ch <= 'Z') {
+            switch(ch){
+            case 'A':
+            ch = 'D';
+            break;
+            case 'B':
+            ch = 'Q';
+            break;
+            case 'C':
+            ch = 'R';
+            break;
+            case 'D':
+            ch = 'E';
+            break;
+            case 'E':
+            ch = 'T';
+            break;
+            case 'F':
+            ch = 'L';
+            break;
+            case 'G':
+            ch = 'N';
+            break;
+            case 'H':
+            ch = 'G';
+            break;
+            case 'I':
+            ch = 'J';
+            break;
+            case 'J':
+            ch='U';
+            break;
+            case 'K':
+            ch = 'B';
+            break;
+            case 'L':
+            ch = 'A';
+            break;
+            case 'M':
+            ch='C';
+            break;
+            case 'N':
+            ch = 'P';
+            break;
+            case 'O':
+            ch = 'X';
+            break;
+            case 'P':
+            ch='Z';
+            break;
+            case 'Q':
+            ch = 'O';
+            break;
+            case 'R':
+            ch = 'I';
+            break;
+            case 'S':
+            ch='F';
+            break;
+            case 'T':
+            ch = 'S';
+            break;
+            case 'U':
+            ch = 'W';
+            break;
+            case 'V':
+            ch='M';
+            break;
+            case 'W':
+            ch = 'V';
+            break;
+            case 'X':
+            ch = 'Y';
+            break;
+            case 'Y':
+            ch='K';
+            break;
+            case 'Z':
+            ch = 'H';
+            break;
+        }}
+    } else if(type == -1)   {
+        if(ch >= 'a' && ch <= 'z'){
+        switch(ch){
+            case 'd':
+            ch = 'a';
+            break;
+            case 'q':
+            ch = 'b';
+            break;
+            case 'r':
+            ch = 'c';
+            break;
+            case 'e':
+            ch = 'd';
+            break;
+            case 't':
+            ch = 'e';
+            break;
+            case 'l':
+            ch = 'f';
+            break;
+            case 'n':
+            ch = 'g';
+            break;
+            case 'g':
+            ch = 'h';
+            break;
+            case 'j':
+            ch = 'i';
+            break;
+            case 'u':
+            ch='j';
+            break;
+            case 'b':
+            ch = 'k';
+            break;
+            case 'a':
+            ch = 'l';
+            break;
+            case 'c':
+            ch='m';
+            break;
+            case 'p':
+            ch = 'n';
+            break;
+            case 'x':
+            ch = 'o';
+            break;
+            case 'z':
+            ch='p';
+            break;
+            case 'o':
+            ch = 'q';
+            break;
+            case 'i':
+            ch = 'r';
+            break;
+            case 'f':
+            ch='s';
+            break;
+            case 's':
+            ch = 't';
+            break;
+            case 'w':
+            ch = 'u';
+            break;
+            case 'm':
+            ch='v';
+            break;
+            case 'v':
+            ch = 'w';
+            break;
+            case 'y':
+            ch = 'x';
+            break;
+            case 'k':
+            ch='y';
+            break;
+            case 'h':
+            ch = 'z';
+            break;
+        }
+        }  else if(ch >= 'A' && ch <= 'Z') {
+            switch(ch){
+            case 'D':
+            ch = 'A';
+            break;
+            case 'Q':
+            ch = 'B';
+            break;
+            case 'R':
+            ch = 'C';
+            break;
+            case 'E':
+            ch = 'D';
+            break;
+            case 'T':
+            ch = 'E';
+            break;
+            case 'L':
+            ch = 'F';
+            break;
+            case 'N':
+            ch = 'G';
+            break;
+            case 'G':
+            ch = 'H';
+            break;
+            case 'J':
+            ch = 'I';
+            break;
+            case 'U':
+            ch = 'J';
+            break;
+            case 'B':
+            ch = 'K';
+            break;
+            case 'A':
+            ch = 'L';
+            break;
+            case 'C':
+            ch = 'M';
+            break;
+            case 'P':
+            ch = 'N';
+            break;
+            case 'X':
+            ch = 'O';
+            break;
+            case 'Z':
+            ch = 'P';
+            break;
+            case 'O':
+            ch = 'Q';
+            break;
+            case 'I':
+            ch = 'R';
+            break;
+            case 'F':
+            ch = 'S';
+            break;
+            case 'S':
+            ch = 'T';
+            break;
+            case 'W':
+            ch = 'U';
+            break;
+            case 'M':
+            ch = 'V';
+            break;
+            case 'V':
+            ch = 'W';
+            break;
+            case 'Y':
+            ch = 'X';
+            break;
+            case 'K':
+            ch = 'Y';
+            break;
+            case 'H':
+            ch = 'Z';
+            break;
+        }}
+    
+    }
+    message[i] = ch;
+    }
+    printf("message: %s", message);
+	}
+	
+	
+	return 0;
+}
